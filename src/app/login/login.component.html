@@ -1,0 +1,33 @@
+<div *ngIf="error">{{error | json }}</div>
+<mat-card class="card-container">
+
+  <mat-card-content class="center">
+    <mat-card-title>LogIn</mat-card-title>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input type="text" formControlName="username" matInput placeholder="Enter Username">
+        <div *ngIf="submitted && f.username.errors">
+          <div *ngIf="f.username.errors.required">Username is Required</div>
+        </div>
+      </mat-form-field>
+      <p></p>
+      <mat-form-field appearance="outline">
+
+        <mat-label>Password</mat-label>
+        <input type="password" formControlName="password" matInput>
+        <div *ngIf="submitted && f.password.errors">
+          <div *ngIf="f.password.errors.required">Password is Required</div>
+        </div>
+      </mat-form-field>
+      <mat-card-actions>
+        <button mat-stroked-button [disabled]="loading" (click)="onSubmit()">
+          Login
+        </button>
+
+      </mat-card-actions>
+      <p>Dont have an account?<span><a routerLink="/register">Register</a></span></p>
+    </form>
+  </mat-card-content>
+
+</mat-card>

@@ -1,0 +1,28 @@
+
+
+<div>
+  <mat-grid-list cols="4" rowHeight="4:5">
+  <mat-grid-tile *ngFor="let product of products">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{product.title}}</mat-card-title>
+      </mat-card-header>
+      <img src="/assets/gg.jpg">
+      <mat-card-content>
+        <div layout="row">
+          <p>from: {{product.prices.min}}<br /> To: {{product.prices.max}}</p>
+
+        </div>
+        <mat-card-footer>
+          <mat-list class="inline-list" *ngFor="let tag of product.tags">
+            <mat-list-item>{{tag}}</mat-list-item>
+          </mat-list>
+        </mat-card-footer>
+
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  </mat-grid-list>
+</div>
+
+

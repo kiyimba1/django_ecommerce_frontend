@@ -1,0 +1,14 @@
+.center {
+  text-align: center;
+}
+
+.card-container {
+  background: cadetblue;
+  padding: 10px;
+  color: white;
+  width: auto;
+  height: available;
+
+  display: flex;
+  justify-content: space-evenly;
+}

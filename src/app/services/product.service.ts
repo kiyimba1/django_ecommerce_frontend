@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class ProductService {
-  productUrl = environment.apiUrl + 'product';
+  productUrl = 'http://127.0.0.1:8000/product/';
 
   constructor(private http: HttpClient) { }
   getProducts(): Observable<any[]>{

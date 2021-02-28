@@ -13,7 +13,7 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
-  apiUrl = environment.apiUrl + 'auth';
+  apiUrl = 'http://127.0.0.1:8000/auth';
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
@@ -31,7 +31,7 @@ export class AuthService {
 
   // tslint:disable-next-line:typedef
   login(username, password) {
-    return this.http.post<any>(`${this.apiUrl}auth/login/`, {username, password})
+    return this.http.post<any>(`${this.apiUrl}/login/`, {username, password})
       .pipe(
         map(user => {
           localStorage.setItem('currentUser', JSON.stringify(user));
@@ -53,5 +53,27 @@ export class AuthService {
   logout() {
     localStorage.removeItem('currentUse');
     this.currentUserSubject.next(null);
+  }
+
+  refreshToken() {
+    return this.http.post<any>(`${this.apiUrl}/token/refresh/`, {}, {withCredentials: true})
+      .pipe(map((user)=>{
+        this.currentUserSubject.next(user);
+        this.startRefreshTokenTimer();
+        return user;
+      }));
+  }
+
+  private refreshTokenTimeout;
+
+  private startRefreshTokenTimer() {
+    const jwtToken = JSON.parse(atob(this.currentUserValue.access.split('.')[1]));
+    const expires = new Date(jwtToken.exp * 1000);
+    const timeout = expires.getTime() - Date.now() - (60 * 1000);
+    this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
+  }
+
+  private  stopRefreshTokenTimer() {
+    clearTimeout(this.refreshTokenTimeout);
   }
 }
